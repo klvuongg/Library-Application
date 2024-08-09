@@ -109,13 +109,21 @@ namespace seneca {
                 return 0;
             }
             else {
+                Publication* selectedPub = nullptr;
+                for (int i = 0; i < num_pub; i++) {
+                    if (pub_pointer[i] != nullptr && pub_pointer[i]->getRef() == libRef) {
+                        selectedPub = pub_pointer[i];
+                        break;
+                    }
+                }
+                if (selectedPub) {
+                    selectedPub->write(cout);
+                    cout << endl;
+                }
                 return libRef;
             }
         }
-        else {
-            cout << "No matches found!" << endl;
-            return 0;
-        }
+        return 0; 
     }
 
     Publication* LibApp::getPub(int libRef) {
