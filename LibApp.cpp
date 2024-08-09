@@ -38,40 +38,42 @@ namespace seneca {
 
     void LibApp::load() {
         cout << "Loading Data" << endl;
-        ifstream is("LibRecsSmall.txt");
+        ifstream is("LibRecs.txt");
         char type{};
         int highestRef = 0;
+        num_pub = 0; 
 
-        for (int i = 0; is; i++) {
-            is >> type;
-            is.ignore();
+        while (is >> type) {
+            is.ignore(); 
+
             if (type == 'B') {
-                pub_pointer[i] = new Book;
+                pub_pointer[num_pub] = new Book;
             }
             else if (type == 'P') {
-                pub_pointer[i] = new Publication;
+                pub_pointer[num_pub] = new Publication;
             }
 
-            if (pub_pointer[i]) {
-                is >> *pub_pointer[i];
-                int currentRef = pub_pointer[i]->getRef();
+            if (pub_pointer[num_pub]) {
+                if (!(is >> *pub_pointer[num_pub])) {
+                    delete pub_pointer[num_pub];
+                    pub_pointer[num_pub] = nullptr;
+                    break;
+                }
+                int currentRef = pub_pointer[num_pub]->getRef();
                 if (currentRef > highestRef) {
                     highestRef = currentRef;
                 }
-                num_pub++;
-            }
-            else {
-                delete pub_pointer[i];
+                num_pub++; 
             }
         }
-        last_libRef = highestRef;
 
+        last_libRef = highestRef;
         is.close();
     }
 
     void LibApp::save() {
         cout << "Saving Data" << endl;
-        ofstream os("LibRecsSmall.txt");
+        ofstream os("LibRecs.txt");
         for (int i = 0; i < num_pub; i++) {
             if (pub_pointer[i]->getRef() != 0) {
                 os << *pub_pointer[i];
