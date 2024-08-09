@@ -42,6 +42,7 @@ namespace seneca {
         char type{};
         int highestRef = 0;
         num_pub = 0; 
+        last_libRef = 0;
 
         while (is >> type) {
             is.ignore(); 
