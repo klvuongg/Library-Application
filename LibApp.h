@@ -42,6 +42,7 @@ namespace seneca {
 		LibApp(const char* filename);
 		void run();
 		Publication* getPub(int libRef);
+		~LibApp();
 	};
 }
 #endif // !SENECA_LIBAPP_H

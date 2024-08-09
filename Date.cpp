@@ -2,15 +2,18 @@
 Final Project Milestone 5
 Module: Date
 Filename: Date.cpp
-Version 1.0
+Version 2.0
 Author	Kaitlyn Vuong
 Revision History
------------------------------------------------------------
-Name               Date                 Reason
------------------------------------------------------------
+--------------------------------------------------------------------------------------------------
+Name                            Date                               Reason
+Changed in the write         2024/09/08           Change function it is not formatting correctly
+function because the 
+formatting is wrong
+--------------------------------------------------------------------------------------------------
 I have done all the coding by myself and only copied the code
 that my professor provided to complete my workshops and assignments.
------------------------------------------------------------*/
+--------------------------------------------------------------------------------------------------*/
 
 #define _CRT_SECURE_NO_WARNINGS
 #include <iomanip>
@@ -128,11 +131,10 @@ namespace seneca {
             os << dateStatus();
         }
         else {
-            char monStr[3];
-            char dayStr[3];
-            sprintf(monStr, "%02d", m_mon);
-            sprintf(dayStr, "%02d", m_day);
-            os << m_year << '/' << monStr << '/' << dayStr;
+            os.fill('0');
+            os << m_year << '/'
+                << std::setw(2) << right << m_mon << '/'
+                << std::setw(2) << right <<m_day;
             os.fill(' ');
         }
         return os;

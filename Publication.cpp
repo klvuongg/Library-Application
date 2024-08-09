@@ -12,9 +12,9 @@ write function updated    2024/03/08     updated write function so
 read function updated     2024/03/08     updated read function so
 										 that the book title can be
 										 read into a bigger buffer
-write function updated    2024/09/08     updated write function so 
-                                         that the newline character 
-										 is added correctly according 
+write function updated    2024/09/08     updated write function so
+										 that the newline character
+										 is added correctly according
 										 to the type
 ---------------------------------------------------------------------
 I have done all the coding by myself and only copied the code
@@ -111,9 +111,9 @@ namespace seneca {
 		else {
 			if (*this) {
 				os << type() << '\t' << m_libRef << '\t' << m_shelfId << '\t'
-					<< (m_title ? m_title : "") << '\t' << m_membership << '\t' << m_date << '\t';
-				if (type() == 'P') {
-					os << "\n";
+					<< (m_title ? m_title : "") << '\t' << m_membership << '\t' << m_date;
+				if (type() == 'B') {
+					os << '\t';
 				}
 			}
 		}
@@ -185,20 +185,14 @@ namespace seneca {
 	}
 
 	Publication::Publication(const Publication& pub) {
-		m_membership = pub.m_membership;
-		m_libRef = pub.m_libRef;
-		m_date = pub.m_date;
-		strcpy(m_shelfId, pub.m_shelfId);
-
-		if (pub.m_title) {
-			m_title = new char[strlen(pub.m_title) + 1];
-			strcpy(m_title, pub.m_title);
-		}
+		m_title = nullptr;
+		*this = pub;
 	}
 
 	Publication& Publication::operator=(const Publication& pub) {
 		if (this != &pub) {
 			delete[] m_title;
+			m_title = nullptr;
 			m_membership = pub.m_membership;
 			m_libRef = pub.m_libRef;
 			m_date = pub.m_date;
@@ -216,6 +210,7 @@ namespace seneca {
 	}
 
 	Publication::~Publication() {
-		delete[] m_title;
+		delete[] m_title; 
+		m_title = nullptr;
 	}
 }

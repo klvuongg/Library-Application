@@ -7,9 +7,10 @@ Author	Kaitlyn Vuong
 Revision History
 --------------------------------------------------------------------------
 Name                         Date                 Reason
-write function updated    2024/09/08     updated write function so that 
-										 the newline character is added 
-										 after the author's name
+write function updated    2024/09/08     updated write function so that
+										 the newline character is added
+										 after the author's name and set
+										 the author's name to the left
 --------------------------------------------------------------------------
 I have done all the coding by myself and only copied the code
 that my professor provided to complete my workshops and assignments.
@@ -39,8 +40,9 @@ namespace seneca {
 	Book& Book::operator=(const Book& b) {
 		if (this != &b) {
 			(Publication&)*this = b;
+			delete[] author_name;
+			author_name = nullptr;
 			if (b.author_name) {
-				delete[] author_name;
 				author_name = new char[strlen(b.author_name) + 1];
 				strcpy(author_name, b.author_name);
 			}
@@ -50,6 +52,7 @@ namespace seneca {
 
 	Book::~Book() {
 		delete[] author_name;
+		author_name = nullptr;
 	}
 
 	char Book::type() const {
@@ -59,6 +62,7 @@ namespace seneca {
 	std::ostream& Book::write(std::ostream& os) const {
 		Publication::write(os);
 		if (conIO(os)) {
+			os << left;
 			if (author_name) {
 				os << " ";
 				if (strlen(author_name) > SENECA_AUTHOR_WIDTH) {
@@ -72,7 +76,6 @@ namespace seneca {
 		}
 		else {
 			os << author_name;
-			os << "\n";
 		}
 		
 		return os;

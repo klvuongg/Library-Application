@@ -38,7 +38,7 @@ namespace seneca {
 
     void LibApp::load() {
         cout << "Loading Data" << endl;
-        ifstream is("LibRecsSmall.txt");
+        ifstream is(m_fileName);
         char type{};
         int highestRef = 0;
         num_pub = 0; 
@@ -74,10 +74,10 @@ namespace seneca {
 
     void LibApp::save() {
         cout << "Saving Data" << endl;
-        ofstream os("LibRecsSmall.txt");
+        ofstream os(m_fileName);
         for (int i = 0; i < num_pub; i++) {
             if (pub_pointer[i]->getRef() != 0) {
-                os << *pub_pointer[i];
+                os << *pub_pointer[i] << endl;
             }
         }
     }
@@ -171,7 +171,7 @@ namespace seneca {
             cout << "Library is at its maximum capacity!" << endl;
             return;
         }
-        cout << "Adding new publication to library" << endl;
+        cout << "Adding new publication to the library" << endl;
         int pubTypeChoice = m_pubTypeMenu.run();
         if (pubTypeChoice == 0) {
             cout << "Aborted!" << endl;
@@ -193,7 +193,7 @@ namespace seneca {
             return;
         }
         else {
-            if (confirm("Add this publication to library?")) {
+            if (confirm("Add this publication to the library?")) {
                 if (newPub) {
                     last_libRef++;
                     newPub->setRef(last_libRef);
@@ -214,7 +214,7 @@ namespace seneca {
     }
 
     void LibApp::removePublication() {
-        cout << "Removing publication from library" << endl;
+        cout << "Removing publication from the library" << endl;
 
         int libRef = search(0);
         if (libRef == 0) {
@@ -245,7 +245,7 @@ namespace seneca {
             bool valid = false;
             int mem_num;
 
-            cout << "Enter Membership Number: ";
+            cout << "Enter Membership number: ";
             do {
                 cin >> mem_num;
                 if (cin.fail() || mem_num < 10000 || mem_num > 99999) {
@@ -270,7 +270,7 @@ namespace seneca {
     LibApp::LibApp(const char* filename) : m_changed(false), m_mainMenu("Seneca Library Application"), m_exitMenu("Changes have been made to the data, what would you like to do?"), m_pubTypeMenu("Choose the type of publication:") {
         if (filename) {
             strcpy(m_fileName, filename);
-            m_fileName[strlen(m_fileName) - 1] = '\0';
+            m_fileName[strlen(m_fileName)] = '\0';
         }
         m_mainMenu << "Add New Publication" << "Remove Publication" << "Checkout publication from library" << "Return publication to library";
         m_exitMenu << "Save changes and exit" << "Cancel and go back to the main menu";
@@ -325,6 +325,12 @@ namespace seneca {
         if (flag) {
             cout << "-------------------------------------------\n"
                 << "Thanks for using Seneca Library Application\n";
+        }
+    }
+
+    LibApp::~LibApp() {
+        for (int i = 0; i < num_pub; i++) {
+            delete pub_pointer[i];
         }
     }
 }
