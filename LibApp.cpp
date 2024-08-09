@@ -251,7 +251,7 @@ namespace seneca {
         }
     }
 
-    LibApp::LibApp(const char* filename) : last_libRef(0), num_pub(0), m_changed(false), m_mainMenu("Seneca Library Application"), m_exitMenu("Changes have been made to the data, what would you like to do?"), m_pubTypeMenu("Choose the type of publication:") {
+    LibApp::LibApp(const char* filename) : m_changed(false), m_mainMenu("Seneca Library Application"), m_exitMenu("Changes have been made to the data, what would you like to do?"), m_pubTypeMenu("Choose the type of publication:") {
         if (filename) {
             strcpy(m_fileName, filename);
             m_fileName[strlen(m_fileName) - 1] = '\0';
