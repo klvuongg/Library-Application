@@ -83,6 +83,7 @@ namespace seneca {
         if (pubTypeSelection == 0) {
             cout << "Aborted!" << endl;
         }
+        cin.ignore();
         char title[256];
         cout << "Publication Title: ";
         cin.getline(title, 256);
@@ -91,7 +92,8 @@ namespace seneca {
             if (pub_pointer[i] != nullptr && pub_pointer[i]->getRef() != 0) {
                 bool typeMatches = (pubTypeSelection == 1 && pub_pointer[i]->type() == 'B') ||
                     (pubTypeSelection == 2 && pub_pointer[i]->type() == 'P');
-                bool titleMatches = strstr(pub_pointer[i]->operator const char* (), title) != nullptr;
+                bool titleMatches = (pub_pointer[i]->operator const char* () != nullptr) &&
+                    (strstr(pub_pointer[i]->operator const char* (), title) != nullptr);
                 bool loanMatches = (mode == 0) || (mode == 1 && pub_pointer[i]->onLoan()) || (mode == 2 && !pub_pointer[i]->onLoan());
 
                 if (typeMatches && titleMatches && loanMatches) {
@@ -99,7 +101,6 @@ namespace seneca {
                 }
             }
         }
-
         if (selector) {
             selector.sort();
             int libRef = selector.run();
@@ -267,7 +268,7 @@ namespace seneca {
         unsigned int s2;
         bool flag = false;
 
-        while (!flag) {
+        while (!flag) {           
             s1 = m_mainMenu.run();
             switch (s1) {
             case 1:
