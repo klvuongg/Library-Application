@@ -128,10 +128,11 @@ namespace seneca {
             os << dateStatus();
         }
         else {
-            os.fill('0');
-            os << m_year << '/'
-                << std::setw(2) << m_mon << '/'
-                << std::setw(2) << m_day;
+            char monStr[3];
+            char dayStr[3];
+            sprintf(monStr, "%02d", m_mon);
+            sprintf(dayStr, "%02d", m_day);
+            os << m_year << '/' << monStr << '/' << dayStr;
             os.fill(' ');
         }
         return os;

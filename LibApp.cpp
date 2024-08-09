@@ -20,6 +20,7 @@ that my professor provided to complete my workshops and assignments.
 #include <iostream>
 #include <fstream>
 #include <cstring>
+#include <iomanip>
 #include "LibApp.h"
 #include "PublicationSelector.h"
 #include "Book.h"
@@ -123,6 +124,9 @@ namespace seneca {
                 return libRef;
             }
         }
+        else {
+            cout << "No matches found!" << endl;
+        }
         return 0; 
     }
 
@@ -145,10 +149,10 @@ namespace seneca {
         Publication* returnPub = getPub(libRef);
         if (returnPub && confirm("Return Publication?")) {
             Date today;
-            int lateDays = today - returnPub->checkoutDate();
-            if (lateDays > 15) {
-                double penalty = (lateDays - 15) * 0.50;
-                cout << "Please pay $" << penalty << " penalty for being " << lateDays << " days late!" << endl;
+            int loanDays = today - returnPub->checkoutDate();
+            if (loanDays > 15) {
+                double penalty = (loanDays - 15) * 0.50;
+                cout << "Please pay $" << std::fixed << std::setprecision(2) << penalty << " penalty for being " << loanDays - 15 << " days late!" << endl;
             }
             returnPub->set(0);
             m_changed = true;
