@@ -38,7 +38,7 @@ namespace seneca {
 
     void LibApp::load() {
         cout << "Loading Data" << endl;
-        ifstream is("LibRecs.txt");
+        ifstream is("LibRecsSmall.txt");
         char type{};
         int highestRef = 0;
         num_pub = 0; 
@@ -73,7 +73,7 @@ namespace seneca {
 
     void LibApp::save() {
         cout << "Saving Data" << endl;
-        ofstream os("LibRecs.txt");
+        ofstream os("LibRecsSmall.txt");
         for (int i = 0; i < num_pub; i++) {
             if (pub_pointer[i]->getRef() != 0) {
                 os << *pub_pointer[i];
@@ -108,7 +108,7 @@ namespace seneca {
             selector.sort();
             int libRef = selector.run();
             if (libRef == 0) {
-                cout << "Aborted" << endl;
+                cout << "Aborted!" << endl;
                 return 0;
             }
             else {
@@ -244,8 +244,8 @@ namespace seneca {
             bool valid = false;
             int mem_num;
 
+            cout << "Enter Membership Number: ";
             do {
-                cout << "Enter Membership Number: ";
                 cin >> mem_num;
                 if (cin.fail() || mem_num < 10000 || mem_num > 99999) {
                     cin.clear();
